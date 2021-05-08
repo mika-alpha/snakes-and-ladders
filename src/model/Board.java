@@ -2,13 +2,16 @@ package model;
 
 public class Board {
 
-    public Cell firstCell;
-    public int rows;
-    public int cols;
+    private Player firstPlayer;
+    private Cell firstCell;
+    private final int rows;
+    private final int cols;
+    private final int cellSize;
 
     public Board(int n, int m){
         rows = n;
         cols = m;
+        cellSize = (int)(Math.log10(n*m)+1)+1;
         createBoard();
     }
 
@@ -44,34 +47,9 @@ public class Board {
             if (prev.getDown() != null){
                 current.setDown(prev.getDown().getRight());
                 prev.getDown().getRight().setUp(current);
-                System.out.println(current.toString() + " : " +  current.getDown().toString() + "\n"+ prev.getDown().getRight() + " : " + prev.getDown().getRight().getUp().toString());
             }
             createCol(r,c+1,current);
         }
-    }
-
-    public String toString(){
-        String msg;
-        msg = toStringRow(firstCell);
-        return msg;
-    }
-
-    private String toStringRow(Cell firstCell) {
-        String msg ="";
-        if (firstCell != null) {
-            msg = toStringCol(firstCell) +"\n";
-            msg += toStringRow(firstCell.getUp());
-        }
-        return msg;
-    }
-
-    private String toStringCol(Cell current) {
-        String msg ="";
-        if (current != null){
-            msg = current.toString();
-            msg += toStringCol(current.getRight());
-        }
-        return msg;
     }
 
     public void enumerateBoard() {
@@ -80,14 +58,13 @@ public class Board {
 
     private void enumerateBoard(Cell current, int id){
         current.setId(id);
-        if (current.getCol() == cols && current.getRow() == rows){
-            return;
-        } else if (current.getRow() % 2 != 0 && current.getRight() != null){
+        if (current.getRow() % 2 != 0 && current.getRight() != null){
             enumerateBoard(current.getRight(),id+1);
         } else if (current.getRow() % 2 == 0 && current.getLeft() != null ){
             enumerateBoard(current.getLeft(),id+1);
-        } else {
+        } else if (current.getId() != cols*rows) {
             enumerateBoard(current.getUp(),id+1);
         }
     }
+
 }

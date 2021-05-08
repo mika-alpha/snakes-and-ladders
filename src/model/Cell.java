@@ -3,17 +3,35 @@ package model;
 public class Cell {
 
     private int id;
-    private int row;
-    private int col;
+    private final int row;
+    private final int col;
+    private char cellChar;
     private Cell up;
     private Cell down;
     private Cell right;
     private Cell left;
+    private Cell warp;
     private Player firstPlayer;
 
     public Cell(int r, int c){
         row = r;
         col = c;
+    }
+
+    public char getCellChar() {
+        return cellChar;
+    }
+
+    public void setCellChar(char c){
+        cellChar = c;
+    }
+
+    public Cell getWarp(){
+        return warp;
+    }
+
+    public void setWarp(Cell w){
+        warp = w;
     }
 
     public int getId(){
@@ -59,12 +77,7 @@ public class Cell {
         return col;
     }
 
-    public String toString(){
-        return "["+row+","+col+"]";
-    }
-
     public void setId(int i){
         id = i;
     }
-
 }
