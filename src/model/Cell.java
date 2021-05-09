@@ -80,4 +80,44 @@ public class Cell {
     public void setId(int i){
         id = i;
     }
+
+    public void addPlayer(Player toAdd){
+        if (firstPlayer== null){
+            firstPlayer = toAdd;
+            toAdd.setNext(toAdd);
+            toAdd.setPrevious(toAdd);
+        } else {
+            toAdd.setPrevious(firstPlayer.getPrevious());
+            firstPlayer.getPrevious().setNext(toAdd);
+            toAdd.setNext(firstPlayer);
+            firstPlayer.setPrevious(toAdd);
+        }
+    }
+
+    public Player searchPlayer(char c){
+        return searchCircularDoubleLN(c,firstPlayer);
+    }
+
+    private Player searchCircularDoubleLN(char c, Player current){
+        if (current == null || current.getPiece() == c){
+            return current;
+        } else if (current.getNext() != firstPlayer){
+            return searchCircularDoubleLN(c, current.getNext());
+        } else {
+            return null;
+        }
+    }
+
+    public void removePlayer(char c){
+        Player toRemove = searchPlayer(c);
+        if (toRemove == firstPlayer && toRemove.getNext() == firstPlayer){
+            firstPlayer = null;
+        } else {
+            toRemove.getPrevious().setNext(toRemove.getNext());
+            toRemove.getNext().setPrevious(toRemove.getPrevious());
+            if (toRemove == firstPlayer) {
+                firstPlayer = toRemove.getNext();
+            }
+        }
+    }
 }

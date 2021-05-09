@@ -7,8 +7,14 @@ public class Board {
     private final int rows;
     private final int cols;
     private final int cellSize;
+    private char snChar;
+    private char ldChar;
+    private char plChar;
 
     public Board(int n, int m){
+        snChar = 65;
+        ldChar = 97;          //i decided to use normal lower case letters to make it less confusing for the user.
+        plChar = 12068;       //and also, i decided to  use unicode kanji characters (just because they look better).
         rows = n;
         cols = m;
         cellSize = (int)(Math.log10(n*m)+1)+1;
@@ -67,4 +73,41 @@ public class Board {
         }
     }
 
+
+
+    public void play(){
+    }
+
+
+
+    public void placePlayers(char p){
+        Player toAdd = new Player(p,firstCell);
+        firstCell.addPlayer(toAdd);
+        if (firstPlayer== null){
+            firstPlayer = toAdd;
+            toAdd.setNext(toAdd);
+            toAdd.setPrevious(toAdd);
+        } else {
+            toAdd.setPrevious(firstPlayer.getPrevious());
+            firstPlayer.getPrevious().setNext(toAdd);
+            toAdd.setNext(firstPlayer);
+            firstPlayer.setPrevious(toAdd);
+        }
+    }
+
+    public Cell searchCell(int i){
+        int row = (int)Math.ceil((double)i/(double) cols); //finds the row where the cell is located.
+        System.out.println(row);
+        return searchCell(i, firstCell, row);
+    }
+
+    private Cell searchCell(int i, Cell current, int r){
+        if (current.getId() == i){
+            return current;
+        } else if (current.getRow() < r){
+            return searchCell(i,current.getUp(),r);
+        } else {
+            return searchCell(i,current.getRight(),r);
+        }
+    }
 }
