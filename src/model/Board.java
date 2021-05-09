@@ -10,6 +10,8 @@ public class Board {
     private char snChar;
     private char ldChar;
     private char plChar;
+    private int snakes;
+    private int ladders;
 
     public Board(int n, int m){
         snChar = 65;
@@ -73,9 +75,37 @@ public class Board {
         }
     }
 
+    private int play(){
+        return play(firstPlayer);
+    }
+
+    private int play(Player current){
+        if (movePlayer(current)){
+            return 1;
+        } else {
+            return play(current.getNext());
+        }
+    }
 
 
-    public void play(){
+
+    public boolean movePlayer(Player p){
+        int pThrow = (int)(Math.random()*6) + 1;
+        int nCell = p.getCurrentCell().getId() + pThrow;
+        if (nCell >= rows*cols){
+            return true; //returns true if the player won
+        } else {
+            Cell moveTo = searchCell(nCell);
+            p.getCurrentCell().removePlayer(p.getPiece());
+            if (moveTo.getWarp() == null) {
+                moveTo.addPlayer(p);
+                p.setCurrentCell(moveTo);
+            } else {
+                moveTo.getWarp().addPlayer(p);
+                p.setCurrentCell(moveTo.getWarp());
+            }
+            return false;
+        }
     }
 
 
