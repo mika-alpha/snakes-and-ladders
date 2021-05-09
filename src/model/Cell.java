@@ -121,10 +121,17 @@ public class Cell {
         }
     }
 
-    public void playersPieces(){
+    public String playersPieces(){
         String pieces ="";
-        if (firstPlayer != null){
-            pieces += firstPlayer.getPiece()
+        return playersPieces(firstPlayer, pieces);
+    }
+    private String playersPieces(Player current, String pieces){
+        if (current != null){
+            pieces += current.getPiece();
+            if (current.getNext() != firstPlayer){
+                return playersPieces(current.getNext(),pieces);
+            }
         }
+        return pieces;
     }
 }

@@ -26,6 +26,7 @@ public class Menu {
 
     private void mainMenu(int i){
         if (i == 1){
+            boolean flag = true;
             System.out.println("Please enter the board setup in the next format: rows cols snakes ladders players\n" +
                     "For players you can both, or write the players symbols or the numbers of players (and the symbols will be generated automatically)\n" +
                     "Examples of valid inputs are: 5 4 3 2 #%*   or   4 3 2 1 3");
@@ -35,30 +36,43 @@ public class Menu {
             if (settings.length != 5 ){
                 System.out.println("\ninvalid input, please try again\n");
                 mainMenu(i);
-            }
-            int nm = Integer.parseInt(settings[0]) * Integer.parseInt(settings[1]);
-            int sal = Integer.parseInt(settings[2]) + Integer.parseInt(settings[3]); //sol stands for snakes and ladders
-            if (nm % 2 == 0){
-                if ((nm-2)/2 < sal){
-                    System.out.println("\nunable to create a board of that size with that many snakes and ladders, try with a bigger board, or less snakes or ladders\n");
-                    mainMenu(i);
-                }
             } else {
-                if (nm/3 < sal){
-                    System.out.println("\nunable to create a board of that size with that many snakes and ladders, try with a bigger board, or less snakes or ladders\n");
+                int n = Integer.parseInt(settings[0]);
+                int m = Integer.parseInt(settings[1]);
+                int sal = Integer.parseInt(settings[2]) + Integer.parseInt(settings[3]); //sol stands for snakes and ladders
+                int players = Integer.parseInt(settings[4]);
+                if (n * m % 2 == 0) { /// this could be perfectly fine  without the -1, but, it'll be better this way for preventing possible bugs when generating the snakes and ladders
+                    if (((n * m - 2) - 1) / 2 < sal) {  //since, if you have n possible snakes and ladders, but you take all the possible cells in the first and last row, you'll actually have n-1 possible snakes and ladders)
+                        System.out.println("\nunable to create a board of that size with that many snakes and ladders, try with a bigger board, or less snakes or ladders\n");
+                        flag = false;
+                    }
+                } else {
+                    if (((n * m - 3) - 1) / 2 < sal) {
+                        System.out.println("\nunable to create a board of that size with that many snakes and ladders, try with a bigger board, or less snakes or ladders\n");
+                        flag = false;
+                    }
+                }
+                if (!flag){
                     mainMenu(i);
+                } else {
+                    createBoard(n,m,players);
                 }
             }
-
         } else if (i == 2){
             if (ranking.getRoot() == null){
                 System.out.println("\nNo one has won a game yet, be the first!\n");
                 menuOptions();
+            } else {
+                ranking.inOrder();
             }
         } else if (i == 3){
             System.out.println("\nThank you for playing!! :)\n\nMade by: Anemone (github.com/anima-anemone)");
         }
     }
 
-
+    public void createBoard(int n, int m, int p){
+        gameBoard = new Board(n, m);
+        gameBoard.addPlayersByNumber(p);
+        gameBoard.printGameBoard();
+    }
 }

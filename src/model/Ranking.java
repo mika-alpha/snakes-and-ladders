@@ -34,17 +34,18 @@ public class Ranking {
         }
     }
 
-    private void inOrder(Score score) {  //code by Javin Paul from educative.io
+    private void inOrder(Score score,int place) {  //code by Javin Paul from educative.io
         if (score == null) {
             return;
         }
-        inOrder(score.getLeft());
-        System.out.print(score.getName()+" ");
-        inOrder(score.getRight());
+        inOrder(score.getLeft(),place+1);
+        System.out.println(place + ". " + score.getName()+": " + score.getPoints());
+        inOrder(score.getRight(),place+1);
     }
 
     public void inOrder() {
-        inOrder(root);
+        int placement = 1;
+        inOrder(root, placement);
     }
 
 

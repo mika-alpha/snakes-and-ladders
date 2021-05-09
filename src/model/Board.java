@@ -117,7 +117,6 @@ public class Board {
             addPlayersByNumber(n-1);
         }
     }
-
     public void addPlayersByChar(char p){
         Player toAdd = new Player(p,firstCell);
         addPlayer(toAdd);
@@ -154,7 +153,8 @@ public class Board {
         }
     }
 
-    public void printBoard(){
+    public void printGameBoard(){
         int cellSize = (int)(Math.log10(rows*cols)+1)+1+nPlayers;
+        System.out.println(cellSize);
     }
 }
