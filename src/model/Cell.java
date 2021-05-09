@@ -120,4 +120,11 @@ public class Cell {
             }
         }
     }
+
+    public void playersPieces(){
+        String pieces ="";
+        if (firstPlayer != null){
+            pieces += firstPlayer.getPiece()
+        }
+    }
 }

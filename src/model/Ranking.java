@@ -47,4 +47,8 @@ public class Ranking {
         inOrder(root);
     }
 
+
+    public Score getRoot(){
+        return root;
+    }
 }

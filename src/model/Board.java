@@ -6,20 +6,20 @@ public class Board {
     private Cell firstCell;
     private final int rows;
     private final int cols;
-    private final int cellSize;
     private char snChar;
     private char ldChar;
     private char plChar;
     private int snakes;
     private int ladders;
+    private int nPlayers;
 
     public Board(int n, int m){
         snChar = 65;
         ldChar = 97;          //i decided to use normal lower case letters to make it less confusing for the user.
-        plChar = 12068;       //and also, i decided to  use unicode kanji characters (just because they look better).
+        plChar = 12068;       //and also, i decided to  use unicode kanji characters (just because they look better and there are a lot).
         rows = n;
         cols = m;
-        cellSize = (int)(Math.log10(n*m)+1)+1;
+        nPlayers = 0;
         createBoard();
     }
 
@@ -109,10 +109,23 @@ public class Board {
     }
 
 
+    public void addPlayersByNumber(int n){
+        if (n != 0) {
+            Player toAdd = new Player(plChar, firstCell);
+            plChar++;
+            addPlayer(toAdd);
+            addPlayersByNumber(n-1);
+        }
+    }
 
-    public void placePlayers(char p){
+    public void addPlayersByChar(char p){
         Player toAdd = new Player(p,firstCell);
+        addPlayer(toAdd);
+    }
+
+    public void addPlayer(Player toAdd){
         firstCell.addPlayer(toAdd);
+        nPlayers++;
         if (firstPlayer== null){
             firstPlayer = toAdd;
             toAdd.setNext(toAdd);
@@ -139,5 +152,9 @@ public class Board {
         } else {
             return searchCell(i,current.getRight(),r);
         }
+    }
+
+    public void printBoard(){
+        int cellSize = (int)(Math.log10(rows*cols)+1)+1+nPlayers;
     }
 }
