@@ -33,21 +33,21 @@ public class Menu {
             System.out.print("Your input: ");
             String input = sc.nextLine();
             String[] settings = input.split(" ");
-            if (settings.length != 5 ){
+            if (settings.length != 5){
                 System.out.println("\ninvalid input, please try again\n");
                 mainMenu(i);
             } else {
                 int n = Integer.parseInt(settings[0]);
                 int m = Integer.parseInt(settings[1]);
-                int sal = Integer.parseInt(settings[2]) + Integer.parseInt(settings[3]); //sol stands for snakes and ladders
-                int players = Integer.parseInt(settings[4]);
+                int sn = Integer.parseInt(settings[2]);
+                int lad = Integer.parseInt(settings[3]);
                 if (n * m % 2 == 0) { /// this could be perfectly fine  without the -1, but, it'll be better this way for preventing possible bugs when generating the snakes and ladders
-                    if (((n * m - 2) - 1) / 2 < sal) {  //since, if you have n possible snakes and ladders, but you take all the possible cells in the first and last row, you'll actually have n-1 possible snakes and ladders)
+                    if (((n * m - 2) - 1) / 2 < sn + lad) {  //since, if you have n possible snakes and ladders, but you take all the possible cells in the first and last row, you'll actually have n-1 possible snakes and ladders)
                         System.out.println("\nunable to create a board of that size with that many snakes and ladders, try with a bigger board, or less snakes or ladders\n");
                         flag = false;
                     }
                 } else {
-                    if (((n * m - 3) - 1) / 2 < sal) {
+                    if (((n * m - 3) - 1) / 2 < sn + lad) {
                         System.out.println("\nunable to create a board of that size with that many snakes and ladders, try with a bigger board, or less snakes or ladders\n");
                         flag = false;
                     }
@@ -55,7 +55,14 @@ public class Menu {
                 if (!flag){
                     mainMenu(i);
                 } else {
-                    createBoard(n,m,players);
+                    gameBoard = new Board(n,m, sn, lad);
+                    if (!Character.isDigit(settings[4].charAt(0))){
+                        gameBoard.addPlayersByChar(settings[4]);
+                    } else {
+                        gameBoard.addPlayersByNumber(Integer.parseInt(settings[4]));
+                    }
+                    gameBoard.initialSetUp();
+                    System.out.println(gameBoard.printCell(gameBoard.getFirstCell()));
                 }
             }
         } else if (i == 2){
@@ -68,11 +75,5 @@ public class Menu {
         } else if (i == 3){
             System.out.println("\nThank you for playing!! :)\n\nMade by: Anemone (github.com/anima-anemone)");
         }
-    }
-
-    public void createBoard(int n, int m, int p){
-        gameBoard = new Board(n, m);
-        gameBoard.addPlayersByNumber(p);
-        gameBoard.printGameBoard();
     }
 }

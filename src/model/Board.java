@@ -2,6 +2,7 @@ package model;
 
 public class Board {
 
+    private Player actualPlayer;
     private Player firstPlayer;
     private Cell firstCell;
     private final int rows;
@@ -11,14 +12,17 @@ public class Board {
     private char plChar;
     private int snakes;
     private int ladders;
+    private int cellSize;
     private int nPlayers;
 
-    public Board(int n, int m){
+    public Board(int n, int m, int s, int l){
         snChar = 65;
         ldChar = 97;          //i decided to use normal lower case letters to make it less confusing for the user.
         plChar = 12068;       //and also, i decided to  use unicode kanji characters (just because they look better and there are a lot).
         rows = n;
         cols = m;
+        snakes = s;
+        ladders = l;
         nPlayers = 0;
         createBoard();
     }
@@ -75,51 +79,46 @@ public class Board {
         }
     }
 
-    private int play(){
-        return play(firstPlayer);
-    }
 
-    private int play(Player current){
-        if (movePlayer(current)){
-            return 1;
-        } else {
-            return play(current.getNext());
-        }
-    }
-
-
-
-    public boolean movePlayer(Player p){
+    public boolean movePlayer(){
         int pThrow = (int)(Math.random()*6) + 1;
-        int nCell = p.getCurrentCell().getId() + pThrow;
+        int nCell = actualPlayer.getCurrentCell().getId() + pThrow;
         if (nCell >= rows*cols){
             return true; //returns true if the player won
         } else {
             Cell moveTo = searchCell(nCell);
-            p.getCurrentCell().removePlayer(p.getPiece());
+            actualPlayer.getCurrentCell().removePlayer(actualPlayer.getPiece());
             if (moveTo.getWarp() == null) {
-                moveTo.addPlayer(p);
-                p.setCurrentCell(moveTo);
+                moveTo.addPlayer(actualPlayer);
+                actualPlayer.setCurrentCell(moveTo);
             } else {
-                moveTo.getWarp().addPlayer(p);
-                p.setCurrentCell(moveTo.getWarp());
+                moveTo.getWarp().addPlayer(actualPlayer);
+                actualPlayer.setCurrentCell(moveTo.getWarp());
             }
+            actualPlayer = actualPlayer.getNext();
             return false;
         }
     }
 
-
     public void addPlayersByNumber(int n){
         if (n != 0) {
             Player toAdd = new Player(plChar, firstCell);
-            plChar++;
             addPlayer(toAdd);
+            plChar++;
             addPlayersByNumber(n-1);
         }
     }
-    public void addPlayersByChar(char p){
-        Player toAdd = new Player(p,firstCell);
-        addPlayer(toAdd);
+
+    public void addPlayersByChar(String chars){
+        addPlayersByChar(chars,0);
+    }
+
+    private void addPlayersByChar(String chars, int current){
+        if (current < chars.length()) {
+            Player toAdd = new Player(chars.charAt(current), firstCell);
+            addPlayer(toAdd);
+            addPlayersByChar(chars,current+1);
+        }
     }
 
     public void addPlayer(Player toAdd){
@@ -153,8 +152,51 @@ public class Board {
         }
     }
 
-    public void printGameBoard(){
-        int cellSize = (int)(Math.log10(rows*cols)+1)+1+nPlayers;
+    public void initialSetUp(){
+        actualPlayer = firstPlayer;
+        cellSize = (int)(Math.log10(rows*cols)+1)+nPlayers+3;
+        enumerateBoard();
+    }
+
+
+
+    public String printCell(Cell current){
+        String c = "[";
+        if (current.getCellChar() != 0){
+            c += current.getCellChar();
+        }
+        c += current.playersPieces();
         System.out.println(cellSize);
+        if (c.length() < cellSize-1){
+            c = fixCell(c);
+        }
+        c += "]";
+        return c;
+    }
+
+    public String fixCell(String c){
+        if (c.length() < cellSize-1){
+            c += " ";
+            return fixCell(c);
+        }
+        return c;
+    }
+
+    public Cell getMostUpperCell(){
+        return getMostUpperCell(firstCell);
+    }
+
+    private Cell getMostUpperCell(Cell current){
+        if (current.getUp() != null){
+            current = getMostUpperCell(current.getUp());
+        }
+        return current;
+    }
+
+    public void printEnumeratedBoard(){
+    }
+
+    public Cell getFirstCell(){
+        return firstCell;
     }
 }

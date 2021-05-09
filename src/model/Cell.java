@@ -125,6 +125,7 @@ public class Cell {
         String pieces ="";
         return playersPieces(firstPlayer, pieces);
     }
+
     private String playersPieces(Player current, String pieces){
         if (current != null){
             pieces += current.getPiece();
@@ -134,4 +135,5 @@ public class Cell {
         }
         return pieces;
     }
+
 }
