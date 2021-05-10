@@ -6,6 +6,7 @@ public class Player {
     private Player previous;
     private final char piece;
     private Cell currentCell;
+    private int moves;
 
     public Player(char p, Cell c){
         piece = p;
@@ -20,13 +21,6 @@ public class Player {
         next = nx;
     }
 
-    public Player getPrevious() {
-        return previous;
-    }
-
-    public void setPrevious(Player pr) {
-        previous = pr;
-    }
 
     public char getPiece() {
         return piece;
@@ -38,5 +32,21 @@ public class Player {
 
     public void setCurrentCell(Cell cc) {
         currentCell = cc;
+    }
+
+    public int getMoves() {
+        return moves;
+    }
+
+    public void setMoves(int m) {
+        moves = m;
+    }
+
+    public void setPrevious(Player p){
+        previous = p;
+    }
+
+    public Player getPrevious(){
+        return previous;
     }
 }

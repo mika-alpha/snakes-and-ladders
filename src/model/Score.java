@@ -5,10 +5,13 @@ public class Score {
     private Score left;
     private Score right;
     private Score parent;
-    private final double points;
+    private final int points;
     private final String name;
+    private final char piece;
+    private int inOrderNumber;
 
-    public Score(double p, String n){
+    public Score(int p, String n, char pi){
+        piece = pi;
         points = p;
         name = n;
     }
@@ -29,20 +32,28 @@ public class Score {
         this.right = right;
     }
 
-    public Score getParent() {
-        return parent;
-    }
-
     public void setParent(Score parent) {
         this.parent = parent;
     }
 
-    public double getPoints() {
+    public int getPoints() {
         return points;
     }
 
     public String getName() {
         return name;
+    }
+
+    public char getPiece(){
+        return piece;
+    }
+
+    public int getInOrderNumber(){
+        return inOrderNumber;
+    }
+
+    public void setInOrderNumber(int i){
+        inOrderNumber = i;
     }
 
 }

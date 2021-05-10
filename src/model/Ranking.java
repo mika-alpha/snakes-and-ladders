@@ -4,11 +4,12 @@ public class Ranking {
 
     private Score root;
 
+
     public Ranking(){
     }
 
-    public void addScore(double p, String n){
-        Score s = new Score(p,n);
+    public void addScore(int p, String n, char pi){
+        Score s = new Score(p,n,pi);
         if (root == null){
             root = s;
         } else {
@@ -34,18 +35,19 @@ public class Ranking {
         }
     }
 
-    private void inOrder(Score score,int place) {  //code by Javin Paul from educative.io
+    private void inOrder(Score score) {//code by Javin Paul from educative.io
         if (score == null) {
             return;
         }
-        inOrder(score.getLeft(),place+1);
-        System.out.println(place + ". " + score.getName()+": " + score.getPoints());
-        inOrder(score.getRight(),place+1);
+        int counter = score.getInOrderNumber();
+        inOrder(score.getLeft());
+        score.setInOrderNumber(++counter);
+        System.out.println(score.getInOrderNumber() + ". " +score.getName() +" | piece: " + score.getPiece() + " | points: " +score.getPoints());
+        inOrder(score.getRight());
     }
 
     public void inOrder() {
-        int placement = 1;
-        inOrder(root, placement);
+        inOrder(root);
     }
 
 
