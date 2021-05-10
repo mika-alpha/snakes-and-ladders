@@ -97,9 +97,11 @@ public class Board {
                 moveTo.getWarp().addPlayer(actualPlayer);
                 actualPlayer.setCurrentCell(moveTo.getWarp());
             }
+            actualPlayer = actualPlayer.getNext();
         }
         return false;
     }
+
 
     public String boardPieces(){
         String pieces ="";
@@ -119,7 +121,8 @@ public class Board {
     public void addPlayersByNumber(int n){
         if (n != 0) {
             Player toAdd = new Player(plChar, firstCell);
-            addPlayer(toAdd);
+            Player toAddB = new Player(plChar,firstCell);
+            addPlayer(toAdd,toAddB);
             plChar++;
             addPlayersByNumber(n-1);
         }
@@ -132,24 +135,25 @@ public class Board {
     private void addPlayersByChar(String chars, int current){
         if (current < chars.length()) {
             Player toAdd = new Player(chars.charAt(current), firstCell);
-            addPlayer(toAdd);
+            Player toAddB = new Player(chars.charAt(current), firstCell);
+            addPlayer(toAdd,toAddB);
             addPlayersByChar(chars,current+1);
         }
     }
 
 
-    public void addPlayer(Player toAdd){
+    public void addPlayer(Player toAdd, Player toAddB){
         firstCell.addPlayer(toAdd);
         nPlayers++;
         if (firstBoardPlayer == null){
-            firstBoardPlayer = toAdd;
-            toAdd.setNext(toAdd);
-            toAdd.setPrevious(toAdd);
+            firstBoardPlayer = toAddB;
+            toAddB.setNext(toAddB);
+            toAddB.setPrevious(toAddB);
         } else {
-            toAdd.setPrevious(firstBoardPlayer.getPrevious());
-            firstBoardPlayer.getPrevious().setNext(toAdd);
-            toAdd.setNext(firstBoardPlayer);
-            firstBoardPlayer.setPrevious(toAdd);
+            toAddB.setPrevious(firstBoardPlayer.getPrevious());
+            firstBoardPlayer.getPrevious().setNext(toAddB);
+            toAddB.setNext(firstBoardPlayer);
+            firstBoardPlayer.setPrevious(toAddB);
         }
     }
 
