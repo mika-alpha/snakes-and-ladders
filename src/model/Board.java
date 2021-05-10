@@ -18,7 +18,7 @@ public class Board {
     public Board(int n, int m, int s, int l){
         snChar = 65;
         ldChar = 97;          //i decided to use normal lower case letters to make it less confusing for the user.
-        plChar = 12068;       //and also, i decided to  use unicode kanji characters (just because they look better and there are a lot).
+        plChar = 945;       //and also, i decided to  use unicode greek characters (just because they look better and there are a lot).
         rows = n;
         cols = m;
         snakes = s;
@@ -138,7 +138,6 @@ public class Board {
 
     public Cell searchCell(int i){
         int row = (int)Math.ceil((double)i/(double) cols); //finds the row where the cell is located.
-        System.out.println(row);
         return searchCell(i, firstCell, row);
     }
 
@@ -158,15 +157,29 @@ public class Board {
         enumerateBoard();
     }
 
+    public String printGameBoard(){
+        String b = "";
+        return printGameBoard(searchRow(rows),b);
+    }
 
+    private String printGameBoard(Cell current, String b){
+        b += printGameCell(current);
+        if (current.getRight() != null){
+            return printGameBoard(current.getRight(),b);
+        } else if (current.getDown() != null){
+            b += "\n";
+            return printGameBoard(searchRow(current.getRow()-1),b);
+        } else {
+            return b;
+        }
+    }
 
-    public String printCell(Cell current){
+    public String printGameCell(Cell current){
         String c = "[";
         if (current.getCellChar() != 0){
             c += current.getCellChar();
         }
         c += current.playersPieces();
-        System.out.println(cellSize);
         if (c.length() < cellSize-1){
             c = fixCell(c);
         }
@@ -182,13 +195,13 @@ public class Board {
         return c;
     }
 
-    public Cell getMostUpperCell(){
-        return getMostUpperCell(firstCell);
+    public Cell searchRow(int r){
+        return searchRow(firstCell, r);
     }
 
-    private Cell getMostUpperCell(Cell current){
-        if (current.getUp() != null){
-            current = getMostUpperCell(current.getUp());
+    private Cell searchRow(Cell current, int r){
+        if (current.getRow() != r){
+            current = searchRow(current.getUp(),r);
         }
         return current;
     }

@@ -62,7 +62,7 @@ public class Menu {
                         gameBoard.addPlayersByNumber(Integer.parseInt(settings[4]));
                     }
                     gameBoard.initialSetUp();
-                    System.out.println(gameBoard.printCell(gameBoard.getFirstCell()));
+                    System.out.println(gameBoard.printGameBoard());
                 }
             }
         } else if (i == 2){
