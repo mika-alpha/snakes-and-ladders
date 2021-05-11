@@ -30,7 +30,7 @@ The game will continue this way until someone wins, then the winner will be aske
 
 ![Alt text](docs/5.png?raw=true "saving score")
 
-If he selecs the second option, all the previous winners will be displayed in a list, with the piece and score they won the game.
+If he selects the second option, all the previous winners will be displayed in a list, with the piece and score they won the game.
 
 ![Alt text](docs/6.png?raw=true "ranking score")
 
