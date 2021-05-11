@@ -95,14 +95,14 @@ public class Cell {
     }
 
     public Player searchPlayer(char c){
-        return searchCircularDoubleLN(c,firstPlayer);
+        return searchPlayer(c,firstPlayer);
     }
 
-    private Player searchCircularDoubleLN(char c, Player current){
+    private Player searchPlayer(char c, Player current){
         if (current == null || current.getPiece() == c){
             return current;
         } else if (current.getNext() != firstPlayer){
-            return searchCircularDoubleLN(c, current.getNext());
+            return searchPlayer(c, current.getNext());
         } else {
             return null;
         }

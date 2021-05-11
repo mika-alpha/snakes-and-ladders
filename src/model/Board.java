@@ -99,8 +99,8 @@ public class Board {
                 actualPlayer.setCurrentCell(moveTo.getWarp());
             }
             actualPlayer = actualPlayer.getNext();
+            return false;
         }
-        return false;
     }
 
     public void addPlayersByNumber(int n){

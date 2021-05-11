@@ -24,7 +24,7 @@ public class Menu {
         mainMenu(Integer.parseInt(sc.nextLine()));
     }
 
-    private void mainMenu(int i){
+    public void mainMenu(int i){
         if (i == 1){
             System.out.println("Please enter the board setup in the next format: rows cols snakes ladders players\n" +
                     "For players you can both, or write the players symbols or the numbers of players (and the symbols will be generated automatically)\n" +
