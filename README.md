@@ -19,8 +19,8 @@ Then, the board will be created and displayed, both with its enumerated cells, a
 
 ![Alt text](docs/3.png?raw=true "intro")
 
-At this point, if the player writes "simul" and hits enter, the game will continue on by itself.
-Also, if he presses "enum" the enumerated board will be displayed agian.
+At this point, if the player writes "simul" and hits enter, the game will continue on by itself making a move every 2 seconds.
+Also, if he presses "enum" the enumerated board will be displayed again.
 
 If the user just hits enter, the game will continue, moving the actual player.
 
