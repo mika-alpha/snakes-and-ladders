@@ -3,6 +3,7 @@ package model;
 public class Ranking {
 
     private Score root;
+    private int counter;
 
 
     public Ranking(){
@@ -22,31 +23,29 @@ public class Ranking {
             if (current.getRight() != null) {
                 addScore(current.getRight(), newScore);
             } else {
-                newScore.setParent(current);
                 current.setRight(newScore);
             }
         } else {
             if (current.getLeft() != null){
                 addScore(current.getLeft(), newScore);
             } else {
-                newScore.setParent(current);
                 current.setLeft(newScore);
             }
         }
     }
 
-    private void inOrder(Score score) {//code by Javin Paul from educative.io
+    private void inOrder(Score score) {
         if (score == null) {
             return;
         }
-        int counter = score.getInOrderNumber();
         inOrder(score.getLeft());
-        score.setInOrderNumber(++counter);
-        System.out.println(score.getInOrderNumber() + ". " +score.getName() +" | piece: " + score.getPiece() + " | points: " +score.getPoints());
+        counter++;
+        System.out.println(counter+". " +score.getName() +" | piece: " + score.getPiece() + " | points: " +score.getPoints());
         inOrder(score.getRight());
     }
 
     public void inOrder() {
+        counter = 0;
         inOrder(root);
     }
 
@@ -54,4 +53,5 @@ public class Ranking {
     public Score getRoot(){
         return root;
     }
+
 }

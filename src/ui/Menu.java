@@ -8,8 +8,8 @@ import java.util.Scanner;
 public class Menu {
 
     private Board gameBoard;
-    private Ranking ranking;
-    private Scanner sc;
+    private final Ranking ranking;
+    private final Scanner sc;
 
     public Menu(){
         System.out.println("| Welcome to snakes and ladders |");
@@ -40,7 +40,7 @@ public class Menu {
                 gameBoard.initialSetUp();
                 System.out.println(gameBoard.printEnumeratedBoard());
                 System.out.println(gameBoard.printGameBoard());
-                play();
+                play(null,false);
             }
         } else if (i == 2){
             if (ranking.getRoot() == null){
@@ -55,26 +55,45 @@ public class Menu {
         }
     }
 
-    public void play(){
-        String order = sc.nextLine();
+    public void play(String order, boolean si){
+        if (order == null) {
+            order = sc.nextLine();
+        }
         if (order.isEmpty()){
             if (!gameBoard.movePlayer()){
                 System.out.println(gameBoard.printGameBoard());
-                play();
+                if (!si) {
+                    play(null, false);
+                } else {
+                    simulation();
+                }
             } else {
-                System.out.print("\nThe player " + gameBoard.getActualPlayer().getPiece() + " has won the game, with "+ gameBoard.getActualPlayer().getMoves() +" moves.\n" +
+                System.out.print("\nThe player " + gameBoard.getActualPlayer().getPiece() + " has won the game with "+ gameBoard.getActualPlayer().getMoves() +" moves.\n" +
                         "Please write the winner's nickname: ");
                 String name = sc.next();
                 ranking.addScore(gameBoard.getCols()* gameBoard.getRows()*gameBoard.getActualPlayer().getMoves(), name, gameBoard.getActualPlayer().getPiece());
                 sc.nextLine();
+                System.out.println();
                 menuOptions();
             }
         } else if (order.equals("menu")) {
             menuOptions();
         } else if (order.equals("enum")){
             System.out.println(gameBoard.printEnumeratedBoard());
-            play();
+            play(null,false);
+        } else if (order.equals("simul")){
+            simulation();
         }
+    }
+
+    public void simulation(){ // i'm pretty sure this can be done better, since this always creates a new thread, but it works.
+        Thread t1 = new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+                play("",true);
+            } catch (Exception ignore) {}
+        });
+        t1.start();
     }
 
     public  void validateBoard(String[] settings){

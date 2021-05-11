@@ -87,35 +87,20 @@ public class Board {
         if (nCell >= rows*cols){
             return true; //returns true if the player won
         } else {
+            Player toMove = new Player(actualPlayer.getPiece(),actualPlayer.getCurrentCell());
             Cell moveTo = searchCellByID(nCell);
-            actualPlayer.getCurrentCell().removePlayer(actualPlayer.getPiece());
+            toMove.getCurrentCell().removePlayer(toMove.getPiece());
             if (moveTo.getWarp() == null) {
-                moveTo.addPlayer(actualPlayer);
+                moveTo.addPlayer(toMove);
                 actualPlayer.setCurrentCell(moveTo);
             } else {
-                System.out.println("The player " + actualPlayer.getPiece() + " has fallen in the special cell "+ moveTo.getCellChar());
-                moveTo.getWarp().addPlayer(actualPlayer);
+                System.out.println("The player " + toMove.getPiece() + " has fallen in the special cell "+ moveTo.getCellChar());
+                moveTo.getWarp().addPlayer(toMove);
                 actualPlayer.setCurrentCell(moveTo.getWarp());
             }
             actualPlayer = actualPlayer.getNext();
         }
         return false;
-    }
-
-
-    public String boardPieces(){
-        String pieces ="";
-        return boardPieces(firstBoardPlayer, pieces);
-    }
-
-    private String boardPieces(Player current, String pieces){
-        if (current != null){
-            pieces += current.getPiece();
-            if (current.getNext() != firstBoardPlayer){
-                return boardPieces(current.getNext(),pieces);
-            }
-        }
-        return pieces;
     }
 
     public void addPlayersByNumber(int n){
@@ -340,10 +325,6 @@ public class Board {
 
     public Player getActualPlayer() {
         return actualPlayer;
-    }
-
-    public void setActualPlayer(Player p){
-        actualPlayer = p;
     }
 
     public int getRows() {
