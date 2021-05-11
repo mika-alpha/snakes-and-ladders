@@ -1,9 +1,9 @@
 This is a 'snakes and ladders' program made in java and run by console. It was made using Intellij Idea on windows
-and to run it you'll need java 8 and to run the main.class file, or, you can also use Intellij and import the project there.
+and to run it you'll need java 8, then you can run the main.class file, or, you can also use Intellij and import the project there.
 
 As you know, the game consists of a board of size nxm, with a determined number of snakes and ladders. If a player 'rolls' the dice and moves into a snake, he'll descend
-into the cell where the snakes ends, and in the opposite way, if he lands on the ladder, he'll climb up to the cell where the ladder ends.
-The first player to reach the first cell wins.
+into the cell where the snakes ends, and in the opposite way, if he lands on a ladder, he'll climb up to the cell where the ladder ends.
+The first player to reach the last cell (nxm) wins.
 
 The documentation; both the functional requirements and the class diagram are here: [Documentation](docs/fc.pdf)
 
